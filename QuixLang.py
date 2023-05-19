@@ -1,5 +1,7 @@
 import sys
 import re
+import random
+import readline
 
 
 class Interpreter:
@@ -61,6 +63,10 @@ class Interpreter:
             expression = ' '.join(tokens[1:])
             result = self.evaluate_expression(expression)
             print(result)
+        elif tokens[0] == 'randnum':
+            start = int(tokens[1])
+            end = int(tokens[2])
+            print(random.randint(start, end))
         else:
             raise Exception("Invalid command.")
 
