@@ -1,6 +1,7 @@
 import sys
 import re
 
+
 class Interpreter:
     def __init__(self):
         self.variables = {}
@@ -19,7 +20,8 @@ class Interpreter:
             else:
                 raise Exception(f"Variable '{variable}' not found.")
         elif tokens[0] == 'display':
-            if len(tokens) >= 2 and ((tokens[1].startswith('"') and tokens[-1].endswith('"')) or (tokens[1].startswith("'") and tokens[-1].endswith("'"))):
+            if len(tokens) >= 2 and ((tokens[1].startswith('"') and tokens[-1].endswith(
+                    '"')) or (tokens[1].startswith("'") and tokens[-1].endswith("'"))):
                 output = ' '.join(tokens[1:])[1:-1]
                 print(output)
             else:
@@ -34,8 +36,10 @@ class Interpreter:
                         try:
                             result = self.evaluate_expression(token)
                             print(f"{token} = {result}")
-                        except:
-                            print(f"Variable '{token}' not found.", file=sys.stderr)
+                        except BaseException:
+                            print(
+                                f"Variable '{token}' not found.",
+                                file=sys.stderr)
         elif tokens[0] == 'if':
             condition = self.evaluate_expression(tokens[1])
             if condition:
@@ -62,11 +66,18 @@ class Interpreter:
 
     def evaluate_expression(self, expression):
         # Replace variable names with their values
-        expression = re.sub(r'\b\w+\b', lambda match: str(self.variables.get(match.group(0), match.group(0))), expression)
+        expression = re.sub(
+            r'\b\w+\b',
+            lambda match: str(
+                self.variables.get(
+                    match.group(0),
+                    match.group(0))),
+            expression)
         # Evaluate the expression using eval
         return eval(expression, {}, self.variables)
 
-def shell():    
+
+def shell():
     # Interactive shell
     interpreter = Interpreter()
 
